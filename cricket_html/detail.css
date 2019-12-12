@@ -1,0 +1,41 @@
+body{
+  padding: 50px 0px 0px 0px;
+}
+
+
+.details-header{
+  
+  margin-bottom: 30px;
+}
+
+.detail-section{
+  padding: 50px;
+}
+.details-main-description{
+  text-align: justify;
+  padding: 30px 10px 12px 10px;
+  
+ }
+ 
+ .details-sub-description{
+   text-align: justify;
+   padding: 10px 10px 12px 10px;
+  
+ 
+ }
+
+.list-section{
+  
+  margin-top: 25px;
+}
+
+.card-img-top{
+  max-height: 50vh;
+}
+
+.footer-dark {
+  padding: 20px 0;
+  color: #f0f9ff;
+  background-color: #282d32;
+}
+

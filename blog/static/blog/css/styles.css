@@ -1,0 +1,64 @@
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+
+
+.card-para{
+    text-align: justify;
+}
+
+
+@media (min-width: 576px) { 
+
+ }
+.carousel-caption{
+    color: hsl(195, 100%, 6%);
+}
+
+
+.post-section{
+    
+    padding-top: 20px ;
+}
+
+
+@media (min-width: 992px){
+
+    
+    .no-gutters img{
+        max-height: 280px;
+    }
+    .card-body-container{
+        max-height: 280px;
+        overflow: hidden;
+    }
+    
+}
+.time_bump{
+    font-size: 15px;
+    opacity: 0.5;
+}
+.no-gutters img:hover{
+    transform: scale(1.06);
+    opacity: 0.8;
+}
+
+.collapse_bottom{
+    border-top: 1px solid rgb(201, 199, 199);
+}
+
+.comments img{
+    height: 40px;
+    width: 40px;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}

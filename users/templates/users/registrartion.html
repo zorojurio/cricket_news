@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body_block %}
+   <div class="container">
+        <div class="row">
+            <div class="col-8 mr-auto ml-auto content-section">
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <fieldset class="form-group">
+                        <legend class="border-bottom"> Sign Up</legend>
+                        {{form|crispy}}
+                    </fieldset>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-outline-dark" value="Sign Up">
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+   </div> 
+{% endblock body_block %}
+    

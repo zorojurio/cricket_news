@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+අනාගතය 
+{% endblock title %}
+
+
+{% block style %}
+<link rel="stylesheet" href=" {% static 'blog/css/styles.css' %} ">
+{% endblock style %}
+
+
+{% block body_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9 content-section"> 
+            <div >
+                
+
+                <div class="card-body">
+                <div class="media">
+                    <img
+                    class="rounded-circle border-light account-img img-thumbnail" width="200" height="200"
+                    src="{{ author.profile.image.url }}"
+                    />
+                </div>
+                <div class="media-body">
+                    <h2 class="account-heading">{{ author.username }}</h2>
+                    <p class="text-secondary">{{ author.email }}</p>
+                </div>
+                </div>
+            
+            </div>
+            </div>  
+            </div>
+    </div>
+    
+    {% for post in posts %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9 content-section"> 
+                    <div class="row post-header">
+                        <div class="col-2 col-md-1">
+                            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                        </div>
+                        <div class="col-8 col-md-10 border-bottom">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="">{{ post.author }}</a>
+                                </div>
+                                <div class="col-12">
+                                    <small class="text-muted">{{ post.published_date }}</small>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 ">
+                            <button class="btn btn-link dropdown-toggle edit-button" type="button" id="gedf-drop1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis"></i>
+                            </button>
+    
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                    <div class="h6 dropdown-header">Configuration</div>
+                                    <a class="dropdown-item" href="{% url 'post:update' pk=post.pk %}">Edit</a>
+                                    <a class="dropdown-item" href="{% url 'post:unpublish' pk=post.pk %}">Move to Drafts</a>
+                                    <a class="dropdown-item" href="{% url 'post:delete' pk=post.pk %}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <div class="col-12">
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        {% if post.news_pic.url  %}
+                        <div class="col-12 col-md-4 mt-4 mb-3">
+                           <img class="img-fluid" src="{{ post.news_pic.url }}" alt="">
+                        </div>
+                        <div class="col-12 col-md-8">
+                             <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
+                            <p class="article-content">{{post.short_description|safe|linebreaksbr}}</p>
+                        </div>
+                        {% else %}
+                        <div class="col-12 col-md-8">
+                             <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
+                            <p class="article-content">{{post.short_description|safe|linebreaksbr}}</p>
+                        </div>
+                        {% endif %}
+                            
+                        
+                        
+                    </div>
+        
+            </div>  
+         <div class="col-lg-3 list-section d-none d-lg-block ">
+
+         </div>
+    </div>
+    </div>
+
+    
+
+    {% endfor %}
+
+    {% endblock body_block %}

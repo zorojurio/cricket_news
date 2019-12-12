@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+My Draft List
+{% endblock title %}
+
+
+{% block style %}
+<link rel="stylesheet" href=" {% static 'blog/css/draft.css' %} ">
+{% endblock style %}
+
+
+{% block body_block %}
+
+
+    {% for post in post_list %}
+    <div class="row post-section justify-content-center">
+        <div class=" col-sm-8 card-content">
+            <div class="card">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-11">
+                            <a href="{{ post.get_absolute_url}}" class="text-decoration-none">
+                                <h3 class="text-dark">{{post.main_title}}</h3>
+                            </a>
+                        </div>
+                        
+                        {% if user.is_authenticated %}
+                        <div class="col-1 dropdown">
+
+                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis"></i>
+                                </button>
+    
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                    <div class="h6 dropdown-header">Configuration</div>
+                                    <a class="dropdown-item" href="{% url 'post:update' pk=post.pk %}">Edit</a>
+                                    <a class="dropdown-item" href="{% url 'post:publish' pk=post.pk %}">Publish</a>
+                                    <a class="dropdown-item" href="{% url 'post:delete' pk=post.pk %}">Delete</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                            
+                    </div>
+                </div>
+                <div class="row no-gutters ">
+                    <div class="col-lg-6 col-12">
+
+
+                        <a href="{{ post.get_absolute_url}}"><img src="{{ post.news_pic.url }}" class="card-img"
+                                alt=""></a>
+                    </div>
+
+                    <div class="card-body col-12 col-lg-6 card-body-container pt-0">
+                        <p class="text-sm-right time_bump text-muted mb-1 mt-0 pb-0 pt-0 pr-1"><i
+                                class="fa fa-clock text-muted"></i> {{ post.published_date }}</p>
+                        <div class="container">
+                            <a href="{{ post.get_absolute_url}} " class="text-decoration-none">
+                                <h5 class="card-title ml-2 mr-2 text-dark ">{{post.sub_title}}</h5>
+                            </a>
+                            <a href="{{ post.get_absolute_url}} " class="text-decoration-none">
+                                <p class="card-text card-para ml-2 mr-2 text-dark">
+                                    {{post.short_description}}
+                                </p>
+                            </a>
+                        </div>
+                        <div class='row'>
+                            <div class="col-12">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% endblock body_block %}

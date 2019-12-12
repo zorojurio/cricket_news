@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block style %}
+    <link rel="stylesheet" href=" {% static 'blog/css/post_form.css' %} ">
+{% endblock style %}
+
+
+
+{% block body_block %}
+<div class="container">
+    <div class="row">
+        <div class="col-9 mr-auto ml-auto">
+            <h1>
+                {% if not form.instance.pk %}
+                Create
+                {% else %}
+                Update
+                {% endif %}
+            </h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+
+                
+                {% if form.instance.pk %}
+                    <input class="btn btn-primary " type="submit" value="Save">
+                 {% else %}
+                    <input class="btn btn-primary " type="submit" value="Draft">
+                    <input class="btn btn-primary" formaction="{% url 'post:publish_now' %}"  type="submit" value="Publish Now">
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var editor = new MediumEditor('.editable');
+</script>
+
+{% endblock body_block %}
+
+

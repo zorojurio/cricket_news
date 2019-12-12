@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+ {% load crispy_forms_tags %} 
+ {% block body_block %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-8 mr-auto ml-auto">
+      <div class="card">
+        
+
+        <div class="card-body">
+          <div class="media">
+            <img
+              class="rounded-circle border-light account-img img-thumbnail" width="200" height="200"
+              src="{{ user.profile.image.url }}"
+            />
+          </div>
+          <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{u_form|crispy}}
+                {{p_form|crispy}}
+                
+            </fieldset>
+            <div class="form-group">
+              <input type="submit" value="Save" class="btn btn-info-outline">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body_block %}

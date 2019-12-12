@@ -1,0 +1,36 @@
+.details-header{
+  margin-bottom: 10px;
+}
+
+.detail-section{
+  padding: 50px;
+}
+.details-main-description{
+  text-align: justify;
+  padding: 10px 10px 0px 0px;
+  
+ }
+ 
+ .details-sub-description{
+   text-align: justify;
+   padding: 10px 10px 12px 10px;
+ }
+
+.list-section{
+  
+  margin-top: 25px;
+}
+
+
+.side_list img{
+  max-height: 50vh;
+
+}
+.side_list img:hover{
+  transform: scale(1.05);
+
+}
+
+.main-detail{
+  margin-left: 10px;
+}
