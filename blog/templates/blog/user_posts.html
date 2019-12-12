@@ -76,7 +76,7 @@
                     </div>
                     <div class="row">
                         
-                        {% if post.news_pic.url  %}
+                        {% if post.news_pic  %}
                         <div class="col-12 col-md-4 mt-4 mb-3">
                            <img class="img-fluid" src="{{ post.news_pic.url }}" alt="">
                         </div>
@@ -84,10 +84,18 @@
                              <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
                             <p class="article-content">{{post.short_description|safe|linebreaksbr}}</p>
                         </div>
+                        {% elif post.video_link %}
+                            <div class="col-12 col-md-7 mt-4 mb-3">
+                            <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{post.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
+                                <p class="article-content text-justify">{{post.short_description|safe|linebreaksbr}}</p>
+                            </div>
                         {% else %}
-                        <div class="col-12 col-md-8">
-                             <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
-                            <p class="article-content">{{post.short_description|safe|linebreaksbr}}</p>
+                        <div class="col-12 col-md-12 pl-5 mt-2">
+                            <h2 ><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a></h2>
+                                <p class="article-content text-justify">{{post.short_description|safe|linebreaksbr}}</p>
                         </div>
                         {% endif %}
                             
