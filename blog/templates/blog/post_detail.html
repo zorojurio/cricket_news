@@ -39,12 +39,12 @@
           </div>
         </div>
         
-        {% if post.news_pic %}
-          <div class="col-12 details-img">
+        {% if post.video_link %}
+          <iframe width="90%" height="320" src="https://www.youtube.com/embed/{{post.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% else %}
+        <div class="col-12 details-img">
             <img class="img-fluid" src="{{ post.news_pic.url }}" alt="" />
           </div>
-        {% else %}
-        <iframe width="90%" height="320" src="https://www.youtube.com/embed/{{post.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         {% endif %}
           
 
@@ -89,7 +89,8 @@
         Related Posts
       </h3>
 
-      {% for postdetail in post_detail_list %} {% if post.pk == postdetail.pk %}
+      {% for postdetail in post_detail_list %} 
+      {% if post.pk == postdetail.pk %}
       {% else %}
       <div class="card mb-3 side_list">
         <a href="{{ postdetail.get_absolute_url }}">
@@ -101,7 +102,7 @@
             alt="Card image cap"
           />
           {% else %}
-          <iframe width="100%" height="200" src="https://www.youtube.com/embed/{{post.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe width="100%" height="200" src="https://www.youtube.com/embed/{{postdetail.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           {% endif %}
             
         </a>
