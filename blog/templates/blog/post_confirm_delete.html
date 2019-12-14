@@ -3,10 +3,21 @@
 
 
 {% block body_block %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <h1> Do you want to Delelte this Post</h1>
-        <input type="submit" class="btn btn-danger" value="Yes">
-    </form>
+<div class="row">
+    <div class="col-8 mr-auto ml-auto content-section">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h1 class="mb-4 border-bottom"> Are You Sure To DELETE this post?</h1>
+            <h3 class="text-center ">{{ object.main_title }}</h3>
+            <div class="col-12 mb-2">
+
+                {% if object.news_pic %}
+                <img src="{{object.news_pic.url}}" alt="" class="img-fluid">
+                {% endif %}
+
+            </div>
+            <input type="submit" class="btn btn-danger" value="Yes">
+        </form>
+    </div>
+</div>
 {% endblock body_block %}
-    

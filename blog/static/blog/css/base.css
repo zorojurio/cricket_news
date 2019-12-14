@@ -6,7 +6,7 @@ body {
 }
 
 .bg-dark{
-    background: #5f788a !important ;
+    background: hsla(204, 25%, 43%, 0.692) !important ;
 }
 h1, h2, h3, h4, h5, h6 {
   color: #444444;
