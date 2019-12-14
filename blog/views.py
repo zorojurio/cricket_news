@@ -16,7 +16,7 @@ class AboutView(TemplateView):
 class CategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self):
         cate = get_object_or_404(Category, title=self.kwargs.get('title'))
@@ -26,7 +26,7 @@ class CategoryListView(ListView):
 class SubCategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self):
         sub_cate = get_object_or_404(
@@ -36,7 +36,7 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 5
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,7 +50,7 @@ class PostListView(ListView):
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
-    paginate_by = 5
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,6 +76,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     form_class = PostForm
+    
 
     def test_func(self):
         return self.request.user.is_staff
@@ -155,3 +156,9 @@ def publish_now(request):
         # setting the published date
         post_save.publish()
         return redirect('post:detail', pk=post_save.pk)
+
+
+def load_subcategories(request):
+    category_id = request.GET.get('category')
+    subcategories = SubCategory.objects.filter(category_id=category_id).order_by('sub_title')
+    return render(request, template_name='blog/subcategory_drop_down_list.html', context={'subcategories':subcategories})

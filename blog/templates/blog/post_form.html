@@ -4,7 +4,7 @@
 
 
 {% block style %}
-    <link rel="stylesheet" href=" {% static 'blog/css/post_form.css' %} ">
+<link rel="stylesheet" href=" {% static 'blog/css/post_form.css' %} ">
 {% endblock style %}
 
 
@@ -21,16 +21,18 @@
                 {% endif %}
             </h1>
 
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" id="postForm"
+                data-subcategories-url="{% url 'post:ajax_load_subcategories' %}" novalidate>
                 {% csrf_token %}
                 {{form.as_p}}
 
-                
+
                 {% if form.instance.pk %}
-                    <input class="btn btn-primary " type="submit" value="Save">
-                 {% else %}
-                    <input class="btn btn-primary " type="submit" value="Draft">
-                    <input class="btn btn-primary" formaction="{% url 'post:publish_now' %}"  type="submit" value="Publish Now">
+                <input class="btn btn-primary " type="submit" value="Save">
+                {% else %}
+                <input class="btn btn-primary " type="submit" value="Draft">
+                <input class="btn btn-primary" formaction="{% url 'post:publish_now' %}" type="submit"
+                    value="Publish Now">
                 {% endif %}
             </form>
         </div>
@@ -41,7 +43,23 @@
 <script>
     var editor = new MediumEditor('.editable');
 </script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_category").change(function () {
+        var url = $("#postForm").attr("data-subcategories-url");  // get the url of the `load_cities` view
+        var categoryId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+                'category': categoryId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+                $("#id_sub_category").html(data);  // replace the contents of the city input with the data that came                                            
+            }
+        });
+
+    });
+</script>
 
 {% endblock body_block %}
-
-

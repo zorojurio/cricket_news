@@ -19,4 +19,5 @@ urlpatterns = [
     path('category/<str:title>', views.CategoryListView.as_view(), name='category'),
     path('category/<str:title>/<str:sub_title>',
          views.SubCategoryListView.as_view(), name='sub_category'),
+    path('ajax/load_subcategories/', views.load_subcategories, name='ajax_load_subcategories'),
 ]
