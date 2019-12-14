@@ -16,6 +16,7 @@ class AboutView(TemplateView):
 class CategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
+    paginate_by = 5
 
     def get_queryset(self):
         cate = get_object_or_404(Category, title=self.kwargs.get('title'))
@@ -25,6 +26,7 @@ class CategoryListView(ListView):
 class SubCategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
+    paginate_by = 5
 
     def get_queryset(self):
         sub_cate = get_object_or_404(
@@ -34,6 +36,7 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,6 +50,7 @@ class PostListView(ListView):
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
