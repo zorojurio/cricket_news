@@ -38,11 +38,11 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 5
+    paginate_by = 1
+    context_object_name = 'post_list'
 
     def get_queryset(self):
-        return Post.objects.filter(
-            published_date__lte=timezone.now()).order_by('-published_date')
+        return Post.objects.filter(published_date__lte=timezone.now())
    
 
 
