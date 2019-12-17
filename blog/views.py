@@ -18,7 +18,7 @@ class AboutView(TemplateView):
 class CategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         cate = get_object_or_404(Category, title=self.kwargs.get('title'))
@@ -28,7 +28,7 @@ class CategoryListView(ListView):
 class SubCategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         sub_cate = get_object_or_404(
@@ -38,7 +38,7 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         return Post.objects.filter(
@@ -49,22 +49,24 @@ class PostListView(ListView):
 class UserPostListView(ListView, MultipleObjectMixin):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
-    paginate_by = 2
+   
     
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
+     
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        user_posts = Post.objects.filter(
-            author=user, published_date__lte=timezone.now()).order_by('-published_date')
-        p = Paginator(user_posts, self.paginate_by)
-        page = self.request.GET.get('page', 1)
+        user_posts = Post.objects.filter(author=user, published_date__lte=timezone.now())
+        p = Paginator(user_posts, 5)
+        page = self.request.GET.get('page',1)
 
         try:
-            context['posts'] = p.page(page)
+           context['page_obj'] = p.page(page)
         except EmptyPage:
-            context['posts'] = p.page(p.num_pages) 
+            context['page_obj'] = p.page(p.num_pages) 
         context['author'] = user
+        context['is_paginated'] = True
         return context
 
 
@@ -127,7 +129,8 @@ class DraftListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        post = get_object_or_404(Post, author=self.kwargs.get('author'))
+        user = post.author
         context['post_list'] = Post.objects.filter(
             published_date__isnull=True, author=user).order_by('-create_date')
 
