@@ -7,7 +7,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-
+from django.views.generic.list import MultipleObjectMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 
 class AboutView(TemplateView):
     template_name = "blog/about.html"
@@ -16,7 +18,7 @@ class AboutView(TemplateView):
 class CategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         cate = get_object_or_404(Category, title=self.kwargs.get('title'))
@@ -26,7 +28,7 @@ class CategoryListView(ListView):
 class SubCategoryListView(ListView):
     model = Post
     context_object_name = 'post_list'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         sub_cate = get_object_or_404(
@@ -36,27 +38,32 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 2
+    paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['post_list'] = Post.objects.filter(
+    def get_queryset(self):
+        return Post.objects.filter(
             published_date__lte=timezone.now()).order_by('-published_date')
-        context['carousel_list'] = Post.objects.filter(
-            published_date__lte=timezone.now()).order_by('-published_date')[:3]
-        return context
+   
 
 
-class UserPostListView(ListView):
+class UserPostListView(ListView, MultipleObjectMixin):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
-    paginate_by = 2
+    paginate_by = 10
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        context['posts'] = Post.objects.filter(
-            author=user).order_by('-published_date')
+        user_posts = Post.objects.filter(
+            author=user, published_date__lte=timezone.now()).order_by('-published_date')
+        p = Paginator(user_posts, self.paginate_by)
+        page = self.request.GET.get('page', 1)
+
+        try:
+            context['posts'] = p.page(page)
+        except EmptyPage:
+            context['posts'] = p.page(p.num_pages) 
         context['author'] = user
         return context
 
