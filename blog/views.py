@@ -38,7 +38,7 @@ class SubCategoryListView(ListView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 1
+    paginate_by = 3
     context_object_name = 'post_list'
 
     def get_queryset(self):
