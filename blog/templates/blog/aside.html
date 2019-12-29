@@ -1,0 +1,70 @@
+<aside class="col-lg-4">
+    <!-- Widget [Search Bar Widget]-->
+    <div class="widget search">
+        <header>
+            <h3 class="h6">Search the blog</h3>
+        </header>
+        <form action="{% url 'post:search' %}" class="search-form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="q" placeholder="What are you looking for?">
+                <button type="submit" class="submit"><i class="icon-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <!-- Widget [Latest Posts Widget]        -->
+    <div class="widget latest-posts">
+        <header>
+            <h3 class="h6">Latest Posts</h3>
+        </header>
+        <div class="blog-posts">
+
+
+            {% for postdetail in most_recent %}
+            {% if post.pk == postdetail.pk %}
+            {% else %}
+            <div class="card mb-3 side_list">
+                <a href="{{ postdetail.get_absolute_url }}">
+
+                    {% if postdetail.news_pic %}
+                    <img class="card-img-top side_image" src="{{ postdetail.news_pic.url }}" alt="Card image cap" />
+                    {% else %}
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/{{postdetail.video_link}}"
+                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                    {% endif %}
+
+                </a>
+
+                <div class="card-body">
+                    <a href="{{ postdetail.get_absolute_url }}">
+                        <h5 class="card-title text-dark text-decoration-none ">
+                            {{ postdetail.main_title }}
+                        </h5>
+                    </a>
+                    <p class="card-text">
+                        <small class="text-muted">{{ postdetail.published_date }}</small>
+                    </p>
+                </div>
+            </div>
+            {% endif %} {% endfor %}
+
+
+        </div>
+    </div>
+    <!-- Widget [Categories Widget]-->
+    <div class="widget categories">
+        <header>
+            <h3 class="h6">Categories</h3>
+        </header>
+
+        {% for cat in category_list %}
+        <div class="item d-flex justify-content-between"><a href="#">{{cat.title}}
+            </a><span>{{cat.post_set.count}}</span></div>
+        {% endfor %}
+
+
+
+    </div>
+
+</aside>

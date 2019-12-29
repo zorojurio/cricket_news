@@ -22,8 +22,11 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
+    path('marketing', include('marketing.urls')),
     path('accounts/', include('users.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),
+    path('ckeditor/', include(
+         'ckeditor_uploader.urls')),
 ]
 
 # inorder to display images

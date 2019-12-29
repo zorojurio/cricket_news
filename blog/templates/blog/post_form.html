@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 
 
 {% block style %}
@@ -12,7 +12,7 @@
 {% block body_block %}
 <div class="container">
     <div class="row">
-        <div class="col-9 mr-auto ml-auto">
+        <div class="col-9 mr-auto ml-auto mb-3 mt-3">
             <h1>
                 {% if not form.instance.pk %}
                 Create
@@ -20,11 +20,11 @@
                 Update
                 {% endif %}
             </h1>
-
+            {{ form.media }}
             <form method="POST" enctype="multipart/form-data" id="postForm"
                 data-subcategories-url="{% url 'post:ajax_load_subcategories' %}" novalidate>
                 {% csrf_token %}
-                {{form.as_p}}
+                {{form|crispy}}
 
 
                 {% if form.instance.pk %}
@@ -40,9 +40,7 @@
 </div>
 
 
-<script>
-    var editor = new MediumEditor('.editable');
-</script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     $("#id_category").change(function () {

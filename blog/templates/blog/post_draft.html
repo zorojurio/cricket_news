@@ -25,7 +25,7 @@ My Draft List
                 <div class="col-8 col-md-10 border-bottom">
                     <div class="row">
                         <div class="col-12">
-                            <a href="{% url 'post:user-posts' post.author.username %}">{{ post.author }}</a>
+                            <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                         </div>
                         <div class="col-12">
                             <small class="text-muted">{{ post.published_date }}</small>
@@ -44,7 +44,7 @@ My Draft List
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                         <div class="h6 dropdown-header">Configuration</div>
                         <a class="dropdown-item" href="{% url 'post:update' pk=post.pk %}">Edit</a>
-                        <a class="dropdown-item" href="{% url 'post:unpublish' pk=post.pk %}">Move to Drafts</a>
+                        <a class="dropdown-item" href="{% url 'post:publish' pk=post.pk %}">Publish</a>
                         <a class="dropdown-item" href="{% url 'post:delete' pk=post.pk %}">Delete</a>
                     </div>
                     {% endif %}

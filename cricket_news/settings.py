@@ -35,12 +35,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'category.apps.CategoryConfig',
+    'subcategory.apps.SubcategoryConfig',
+    'marketing.apps.MarketingConfig',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
     'social_django',
-]
+    'ckeditor',
+    'ckeditor_uploader',
 
+]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,7 +84,7 @@ TEMPLATES = [
                 'blog.context_processors.category_list',
 
                 'social_django.context_processors.backends',  # <--
-                'social_django.context_processors.login_redirect', # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
@@ -131,7 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_in_env')]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -139,6 +155,11 @@ LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+MAILCHIMP_API_KEY = '39b0f64efb8a68bf28b76d3a2917774f-us4'
+MAILCHIMP_DATA_CENTER = 'us4'
+MAILCHIMP_EMAIL_LIST_ID = 'f2ad13a7dd'
 
 
 try:
