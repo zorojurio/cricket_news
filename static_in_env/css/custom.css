@@ -2,6 +2,7 @@
 
 
 .content-section {
+  
   background: #ffffff;
   padding: 10px 20px;
   border: 1px solid #dddddd;
@@ -10,9 +11,7 @@
   margin-top: 20px;
 }
 
-.article-title {
-  color: hsla(0, 0%, 27%, 0.788);
-}
+
 
 a.article-title:hover {
   color: #428bca;
@@ -24,8 +23,9 @@ a.article-title:hover {
 }
 
 .article-img {
-  height: 55px;
-  width: 55px;
+  height: 40px;
+  width: 40px;
+  margin-right: 5px;
 
 }
 
@@ -35,10 +35,6 @@ a.article-title:hover {
   border-bottom: 1px solid #e3e3e3
 }
 
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
-}
 
 
 .account-img {

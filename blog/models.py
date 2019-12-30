@@ -5,14 +5,16 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
+from PIL import Image
+from django.template.defaultfilters import slugify
 
 
 class Post(models.Model):
     """Model definition for Post."""
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    main_title = models.CharField(max_length=200)
-    slug = models.SlugField()
+    main_title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200)
     news_pic = models.ImageField(upload_to='news_pics', blank=True, null=True)
     video_link = models.CharField(max_length=200, blank=True, null=True)
     short_description = models.TextField()
@@ -35,21 +37,18 @@ class Post(models.Model):
         self.published_date = timezone.now()
         self.save()
 
-    def get_approved_comments_list(self):
-        return self.comments.filter(approved_comment=True)
-
     def __str__(self):
         """Unicode representation of Post."""
         return self.main_title
 
     def get_absolute_url(self):
-        return reverse('post:detail', kwargs={'pk': self.pk})
+        return reverse('post:detail', kwargs={'slug': self.slug})
 
     def get_update_url(self):
-        return reverse('post:update',  kwargs={'pk': self.pk})
+        return reverse('post:update',  kwargs={'slug': self.slug})
 
     def get_delete_url(self):
-        return reverse('post:delete',  kwargs={'pk': self.pk})
+        return reverse('post:delete',  kwargs={'slug': self.slug})
 
     @property
     def get_comments(self):
@@ -59,8 +58,42 @@ class Post(models.Model):
     def comment_count(self):
         return Comment.objects.filter(post=self).count()
 
+    def get_category_list_url(self):
+        return reverse('post:category', kwargs={
+            'slug': self.category.slug,
+
+        })
+
+    def subcat(self):
+        if self.sub_category:
+            return self.sub_category.sub_slug
+
+    def get_sub_category_list_url(self):
+        return reverse('post:sub_category', kwargs={
+            'slug': self.category.slug,
+            'sub_slug': self.subcat(),
+
+
+        })
+
+    def get_user_post(self):
+        return reverse('user-posts', kwargs={
+            'username': self.author.username
+        })
+
     class Meta:
         ordering = ["-published_date"]
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.main_title)
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.news_pic.path)
+
+        if img.height > 800 or img.width > 800:
+            output_size = (800, 800)
+            img.thumbnail(output_size)
+            img.save(self.news_pic.path)
 
 
 class Comment(models.Model):
@@ -72,3 +105,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_commented_user_post(self):
+        return reverse('user-posts', kwargs={
+            'username': self.user.username
+        })

@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-අනාගතය
-{% endblock title %}
+{% block meta_tags %}
 
+<meta name="description"
+    content="Financial knowledge is more important than Common sense? We prove the best fianacial tips, guides to boost your networth">
+{% endblock meta_tags %}
+
+{% block title %}
+Finbasic -Every thing you need to know about Fianance
+{% endblock title %}
 
 {% block style %}
 
@@ -30,7 +35,8 @@
                 <div class="content-section">
                     <div class="row post-header">
                         <div class="col-2 col-md-1">
-                            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}"
+                                alt="{{post.author.username}}">
                         </div>
                         <div class="col-8 col-md-10 border-bottom">
                             <div class="row">
@@ -54,9 +60,10 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                                 <div class="h6 dropdown-header">Configuration</div>
-                                <a class="dropdown-item" href="{% url 'post:update' pk=post.pk %}">Edit</a>
-                                <a class="dropdown-item" href="{% url 'post:unpublish' pk=post.pk %}">Move to Drafts</a>
-                                <a class="dropdown-item" href="{% url 'post:delete' pk=post.pk %}">Delete</a>
+                                <a class="dropdown-item" href="{{post.get_update_url}}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'post:unpublish' slug=post.slug %}">Move to
+                                    Drafts</a>
+                                <a class="dropdown-item" href="{{post.get_delete_url}}">Delete</a>
                             </div>
                             {% endif %}
 
@@ -67,7 +74,7 @@
 
                         {% if post.news_pic  %}
                         <div class="col-12 col-md-5 mt-4 mb-3">
-                            <img class="img-fluid" src="{{ post.news_pic.url }}" alt="">
+                            <img class="img-fluid" src="{{ post.news_pic.url }}" alt="{{post.main_title}}">
                         </div>
                         <div class="col-12 col-md-7 article-head-title">
                             <h2><a class="article-title" href="{{ post.get_absolute_url}}">{{ post.main_title }}</a>

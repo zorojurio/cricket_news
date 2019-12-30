@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta_tags %}
+
+<meta name="description" content="{{post.short_description}}">
+{% endblock meta_tags %}
+
+{% block title %}
+{{post.main_title}}
+{% endblock title %}
+
 
 {% block body_block %}
 <div class="container">
@@ -10,7 +19,7 @@
          <div class="container">
             <div class="post-single">
 
-               {% if  user.is_authenticated  %}
+               {% if user.is_authenticated and post.author == user %}
                <div class="col-12 d-flex justify-content-md-end mb-1">
                   <a href="{{post.get_update_url}}" class="btn btn-primary mr-2">Update</a>
                   <a href="{{post.get_delete_url}}" class="btn btn-danger">Delete</a>
@@ -26,8 +35,8 @@
                      <div class="category">
 
 
-                        <a href="{% url 'post:category' title=post.category.title %}">{{post.category.title}}/
-                           {{post.sub_category.sub_title}}</a>
+                        <a href="{{post.get_category_list_url}}">{{post.category.title}} /</a>
+                        <a href="{{post.get_sub_category_list_url}}">{{post.sub_category.sub_title}}</a>
 
 
 
@@ -37,13 +46,18 @@
                   <h1>{{post.main_title}}</h1>
                   <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
                         class="author d-flex align-items-center flex-wrap">
-                        <div class="avatar"><img src="{{post.author.profile.image.url}}" alt="{{post.author.username}}."
-                              class="img-fluid">
+                        <div class="avatar">
+                           <a href="{{post.get_user_post}}">
+                              <img src="{{post.author.profile.image.url}}" alt="{{post.author.username}}."
+                                 class="article-img rounded-circle">
+                           </a>
+                           <div class="title"><span>{{post.author.username}}</span></div>
                         </div>
-                        <div class="title"><span>{{post.author.username}}</span></div>
+
                      </a>
                      <div class="d-flex align-items-center flex-wrap">
-                        <div class="date"><i class="icon-clock"></i> {{post.published_date|timesince}} ago</div>
+                        <div class="date"><i class="icon-clock"></i> {{post.published_date|date:"M Y"}}
+                        </div>
 
                         <div class="comments meta-last"><i class="icon-comment"></i>{{post.comment_count}}</div>
                      </div>
@@ -56,7 +70,12 @@
 
 
                   <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
-
+                     <div class="col-12">
+                        <iframe
+                           src="https://www.facebook.com/plugins/share_button.php?href={{ request.build_absolute_uri }}&layout=button&size=large&width=76&height=28&appId"
+                           width="76" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                           allowTransparency="true" allow="encrypted-media"></iframe>
+                     </div>
                      {% if post.previous_post %}
                      <a href="{{post.previous_post.get_absolute_url}}"
                         class="prev-post text-left d-flex align-items-center">
@@ -83,7 +102,7 @@
 
 
                   </div>
-                  <div class="content-section">
+                  <div>
                      <div class="post-comments ">
                         <header>
                            <h3 class="h6">Post Comments<span class="no-of-comments">({{post.comments.count}})</span>
@@ -95,18 +114,22 @@
                            <div class="comment-header d-flex justify-content-between">
                               <div class="user d-flex align-items-center">
 
-                                 {% if comment.user.author %}
-                                 <div class="image"><img src="{{ comment.user.author.profile_picture.url }}"
-                                       alt="{{comment.user.username}}" class="img-fluid rounded-circle">
-                                 </div>
-                                 {% else %}
-                                 <div class="image"><img src="{% static 'img/user.svg'%}" alt="..."
-                                       class="img-fluid rounded-circle">
-                                 </div>
-                                 {% endif %}
+                                 <a href="{{comment.get_commented_user_post}}">
+                                    <div class="image">
+                                       <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user.username}}"
+                                          class="img-fluid rounded-circle">
+                                    </div>
+                                 </a>
 
-                                 <div class="title"><strong>{{comment.user.username}}</strong><span
-                                       class="date">{{comment.timestamp|timesince}} ago</span></div>
+
+                                 <div class="title">
+                                    <a href="{{comment.get_commented_user_post}}">
+                                       <strong>{{comment.user.username}}</strong>
+                                    </a>
+                                    <div>
+                                       <span class="date">{{comment.timestamp|date:"M Y"}}</span>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                            <div class="comment-body">
@@ -120,7 +143,7 @@
                      </div>
 
                      {% if request.user.is_authenticated %}
-                     <div class="add-comment ">
+                     <div class="add-comment border-top pt-5">
                         <header>
                            <h3 class="h6">Leave a reply</h3>
                         </header>

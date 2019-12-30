@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta_tags %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta_tags %}
+
+
 {% block body_block %}
 <div class="container">
 	<div class="row">
@@ -11,30 +16,30 @@
 					<!-- post -->
 
 					{% for post in queryset %}
-					<div class="post col-xl-10">
+					<div class="post col-xl-10 content-section">
 						<div class="post-thumbnail"><a href="{{post.get_absolute_url}}"><img src="{{post.news_pic.url}}"
 									class="img-fluid" alt="{{post.title}}"></a></div>
 						<div class="post-details">
 							<div class="post-meta d-flex justify-content-between">
-								<div class="date meta-last">{{post.timestamp}}</div>
+								<div class="date meta-last">{{post.published_date|timesince}}</div>
 								<div class="category">
-									{% for cat in post.categories.all %}
-									<a href="#">{{cat.title}}</a>
-									{% endfor %}
+
+									<a href="#">{{post.category.title}}/{{post.sub_category.sub_title}}</a>
+
 								</div>
 
 							</div><a href="{{post.get_absolute_url}}">
-								<h3 class="h4">{{post.title}}</h3>
+								<h3 class="h4">{{post.main_title}}</h3>
 							</a>
-							<p class="text-muted">{{post.overview|truncatechars:80}}</p>
+							<p class="text-muted">{{post.short_description|truncatechars:200}}</p>
 							<footer class="post-footer d-flex align-items-center">
 								<a href="#" class="author d-flex align-items-center flex-wrap">
 									<div class="avatar">
-										<img src="{{post.author.profile_picture.url}}" alt="..." class="img-fluid">
+										<img src="{{post.author.profile.image.url}}" alt="..." class="img-fluid">
 									</div>
-									<div class="title"><span>{{post.author.user.username}}</span></div>
+									<div class="title"><span>{{post.author.username}}</span></div>
 								</a>
-								<div class="date"><i class="icon-clock"></i> {{post.timestamp}}</div>
+								<div class="date"><i class="icon-clock"></i> {{post.published_date}}</div>
 								<div class="comments meta-last"><i class="icon-comment"></i>{{post.comment_count}}</div>
 							</footer>
 						</div>

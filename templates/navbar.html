@@ -6,7 +6,7 @@
                 <div class="close-btn"><i class="icon-close"></i></div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-8">
-                        <form action="." method="POST">
+                        <form action="{% url 'post:search' %}" method="POST">
                             {% csrf_token %}
                             <div class="form-group">
                                 <input type="search" name="q" id="search" placeholder="What are you looking for?">
@@ -20,7 +20,7 @@
         <div class="container">
             <!-- Navbar Brand -->
             <div class="navbar-header d-flex align-items-center justify-content-between">
-                <!-- Navbar Brand --><a href="/" class="navbar-brand">Navendra</a>
+                <!-- Navbar Brand --><a href="/" class="navbar-brand">FinBasic</a>
                 <!-- Toggle Button-->
                 <button type="button" data-toggle="collapse" data-target="#navbarcollapse"
                     aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation"
@@ -29,16 +29,19 @@
             <!-- Navbar Menu -->
             <div id="navbarcollapse" class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'post:list' %}">Explore </a>
+                    </li>
                     {% for category in categories %}
                     {% if category.subcategory_set.all %}
                     <li class="nav-item dropdown mydropdowncss ">
-                        <a class="nav-link dropdown-toggle" href="{% url 'post:category' title=category.title %}">
+                        <a class="nav-link dropdown-toggle" href="{% url 'post:category' slug=category.slug %}">
                             {{category.title|title}}
                         </a>
                         <div class="dropdown-menu ">
                             {% for sub in category.subcategory_set.all %}
                             <a class="dropdown-item"
-                                href="{% url 'post:sub_category' title=category.title sub_title=sub.sub_title %}">{{ sub.sub_title|title }}</a>
+                                href="{% url 'post:sub_category' slug=category.slug sub_slug=sub.sub_slug %}">{{ sub.sub_title|title }}</a>
                             {% endfor %}
 
                         </div>
@@ -46,8 +49,8 @@
 
                     {% else %}
                     <li class="nav-item ">
-                        <a class="nav-link"
-                            href="{% url 'post:category' title=category.title %}">{{category.title|title}} </a>
+                        <a class="nav-link" href="{% url 'post:category' slug=category.slug %}">{{category.title|title}}
+                        </a>
                     </li>
                     {% endif %}
 

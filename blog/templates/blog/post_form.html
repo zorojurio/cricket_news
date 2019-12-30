@@ -2,6 +2,15 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block meta_tags %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta_tags %}
+
+
+{% block title %}
+New Article
+{% endblock title %}
+
 
 {% block style %}
 <link rel="stylesheet" href=" {% static 'blog/css/post_form.css' %} ">
@@ -11,8 +20,8 @@
 
 {% block body_block %}
 <div class="container">
-    <div class="row">
-        <div class="col-9 mr-auto ml-auto mb-3 mt-3">
+    <div class="row content-section">
+        <div class="col-9 mr-auto ml-auto mb-3 mt-3 ">
             <h1>
                 {% if not form.instance.pk %}
                 Create

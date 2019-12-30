@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta_tags %}
+
+<meta name="description" content="{% if category_meta %}
+{{category_meta.meta_description}}
+{% elif sub_category_meta %}
+{{sub_category_meta.meta_description}}
+{% endif %}">
+{% endblock meta_tags %}
+
+{% block title %}
+
+{% if category_meta %}
+{{category_meta.title}} -Finbasic
+{% elif sub_category_meta %}
+{{sub_category_meta.title}} - Finbasic
+{% endif %}
+
+{% endblock title %}
+
 {% block body_block %}
 <div class="container">
 	<div class="row">
@@ -19,7 +38,8 @@
 								<div class="date meta-last">{{post.published_date}}</div>
 								<div class="category">
 
-									<a href="#">{{post.category.title}}</a>
+									<a href="{{post.get_category_list_url}}">{{post.category.title}}/</a>
+									<a href="{{post.get_sub_category_list_url}}">{{post.sub_category.sub_title}}</a>
 
 								</div>
 
@@ -28,9 +48,10 @@
 							</a>
 							<p class="text-muted">{{post.short_description|truncatechars:110}}</p>
 							<footer class="post-footer d-flex align-items-center">
-								<a href="#" class="author d-flex align-items-center flex-wrap">
-									<div class="avatar">
-										<img src="{{post.author.profile.image.url}}" alt="..." class="img-fluid">
+								<a href="{{post.get_user_post}}" class="author d-flex align-items-center flex-wrap">
+									<div class="">
+										<img src="{{post.author.profile.image.url}}" alt="{{post.author.username}}"
+											class="article-img rounded-circle">
 									</div>
 									<div class="title"><span>{{post.author.username}}</span></div>
 								</a>
@@ -48,10 +69,10 @@
 				<nav aria-label="Page navigation example">
 					<ul class="pagination pagination-template d-flex justify-content-center">
 
-						{% if page_obj.has_previous %}
+						{% comment %} {% if page_obj.has_previous %}
 						<li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link"> <i
-									class="fa fa-angle-left"></i></a></li>
-						{% endif %}
+									class="fa fa-angle-left"></i></a>c
+							{% endif %}
 
 
 						<li class="page-item"><a href="?page={{ page_obj.number }}" class=" page-link
@@ -61,6 +82,30 @@
 						{% if page_obj.has_next %}
 						<li class="page-item"><a href="?page={{page_obj.next_page_number}}" class="page-link"> <i
 									class="fa fa-angle-right"></i></a></li>
+						{% endif %} {% endcomment %}
+
+
+						{% if is_paginated %}
+
+						{% if page_obj.has_previous %}
+						<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+						<a class="btn btn-outline-info mb-4"
+							href="?page={{ page_obj.previous_page_number }}">Previous</a>
+						{% endif %}
+
+						{% for num in page_obj.paginator.page_range %}
+						{% if page_obj.number == num %}
+						<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+						{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+						<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+						{% endif %}
+						{% endfor %}
+
+						{% if page_obj.has_next %}
+						<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+						<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+						{% endif %}
+
 						{% endif %}
 
 					</ul>

@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta_tags %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta_tags %}
+
+
 {% block title %}
 My Draft List
 {% endblock title %}
@@ -43,9 +48,9 @@ My Draft List
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                         <div class="h6 dropdown-header">Configuration</div>
-                        <a class="dropdown-item" href="{% url 'post:update' pk=post.pk %}">Edit</a>
-                        <a class="dropdown-item" href="{% url 'post:publish' pk=post.pk %}">Publish</a>
-                        <a class="dropdown-item" href="{% url 'post:delete' pk=post.pk %}">Delete</a>
+                        <a class="dropdown-item" href="{{post.get_update_url}}">Edit</a>
+                        <a class="dropdown-item" href="{% url 'post:publish' slug=post.slug %}">Publish</a>
+                        <a class="dropdown-item" href="{{post.get_delete_url}}">Delete</a>
                     </div>
                     {% endif %}
 

@@ -121,13 +121,15 @@ class CategoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        cate = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        context['category_meta'] = cate
         context['category_list'] = Category.objects.all()
         context['most_recent'] = Post.objects.filter(
             published_date__lte=timezone.now()).order_by('published_date')[:3]
         return context
 
     def get_queryset(self):
-        cate = get_object_or_404(Category, title=self.kwargs.get('title'))
+        cate = get_object_or_404(Category, slug=self.kwargs.get('slug'))
         return cate.post_set.filter(published_date__lte=timezone.now()).order_by('-published_date')
 
 
@@ -139,6 +141,9 @@ class SubCategoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        cate = get_object_or_404(
+            SubCategory, sub_slug=self.kwargs.get('sub_slug'))
+        context['sub_category_meta'] = cate
         context['category_list'] = Category.objects.all()
         context['most_recent'] = Post.objects.filter(
             published_date__lte=timezone.now()).order_by('published_date')[:3]
@@ -146,7 +151,7 @@ class SubCategoryListView(ListView):
 
     def get_queryset(self):
         cate = get_object_or_404(
-            SubCategory, sub_title=self.kwargs.get('sub_title'))
+            SubCategory, sub_slug=self.kwargs.get('sub_slug'))
         return cate.post_set.filter(published_date__lte=timezone.now()).order_by('-published_date')
 
 
@@ -173,7 +178,7 @@ class PostDetailView(DetailView):
             form.instance.post = post
             form.save()
             return redirect(reverse("post:detail", kwargs={
-                'pk': post.pk
+                'slug': post.slug
             }))
 
 
@@ -218,22 +223,22 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 @login_required
-def publish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def publish(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.user == post.author and request.user.is_staff:
         post.publish()
-        return redirect('post:detail', pk=pk)
+        return redirect('post:detail', slug=slug)
     else:
         return redirect('post:list')
 
 
 @login_required
-def unpublish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def unpublish(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.user == post.author and request.user.is_staff:
         post.published_date = None
         post.save()
-    return redirect('post:detail', pk=pk)
+    return redirect('post:detail', slug=slug)
 
 
 @login_required
@@ -245,7 +250,7 @@ def publish_now(request):
         post_save = post.save(commit=False)
         # setting the published date
         post_save.publish()
-        return redirect('post:detail', pk=post_save.pk)
+        return redirect('post:detail', slug=post_save.slug)
 
 
 def load_subcategories(request):

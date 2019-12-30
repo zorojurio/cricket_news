@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.shortcuts import reverse
 
 
 class Category(models.Model):
