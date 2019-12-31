@@ -15,7 +15,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     main_title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200)
-    news_pic = models.ImageField(upload_to='news_pics', blank=True, null=True)
+    news_pic = models.ImageField(upload_to='news_pics')
     video_link = models.CharField(max_length=200, blank=True, null=True)
     short_description = models.TextField()
     long_description = RichTextUploadingField()

@@ -28,9 +28,11 @@ class AboutView(TemplateView):
 class HomeView(View):
     def get(self, *args, **kwargs):
         post_list = Post.objects.filter(
-            featured=True).order_by('-published_date')[:3]
-        latest = Post.objects.all().order_by('-published_date')[:3]
-        pics = Post.objects.all().order_by('-published_date')[3:7]
+            featured=True, published_date__lte=timezone.now()).order_by('-published_date')[:3]
+        latest = Post.objects.filter(
+            published_date__lte=timezone.now()).order_by('-published_date')[:3]
+        pics = Post.objects.filter(
+            published_date__lte=timezone.now()).order_by('-published_date')[3:7]
         form = EmailSignupForm()
         context = {
             'post_list': post_list,
