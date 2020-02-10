@@ -6,6 +6,8 @@ app_name = 'post'
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('search/', views.search, name='search'),
+    path('about/', views.AboutView.as_view(), name='about'),
+
     # crud
     path('explore/', views.PostListView.as_view(), name='list'),
     path('article/<slug:slug>', views.PostDetailView.as_view(), name='detail'),
