@@ -1,6 +1,7 @@
 from django.db import models
 from category.models import Category
 from django.template.defaultfilters import slugify
+from django.db.models.signals import post_save
 
 
 class SubCategory(models.Model):
@@ -21,6 +22,16 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.category.title + " " + self.sub_title
 
-    def save(self, *args, **kwargs):
-        self.sub_slug = slugify(self.sub_title)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.sub_slug = slugify(self.sub_title)
+    #     super().save(*args, **kwargs)
+
+
+def slug_post_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.sub_slug:
+        slug = slugify(instance.sub_title)
+        instance.sub_slug = slug
+        instance.save()
+
+
+post_save.connect(slug_post_save_receiver, sender=SubCategory)
