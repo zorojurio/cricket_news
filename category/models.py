@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.shortcuts import reverse
+from django.db.models.signals import post_save
 
 
 class Category(models.Model):
@@ -22,6 +23,16 @@ class Category(models.Model):
     def get_latest(self):
         return self.post_set.filter(featured=True).order_by('-published_date')[:3]
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.title)
+    #     super().save(*args, **kwargs)
+
+
+def slug_post_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        slug = slugify(instance.title)
+        instance.slug = slug
+        instance.save()
+
+
+post_save.connect(slug_post_save_receiver, sender=Category)
