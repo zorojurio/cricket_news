@@ -4,8 +4,7 @@
 
 {% block meta_tags %}
 <link rel="canonical" href="https://anaagathaya.com" />
-<meta name="description"
-    content="Financial knowledge is more important than Common sense? We prove the best fianacial tips, guides to boost your networth">
+<meta name="description" content="Financial knowledge is more important than Common sense? We prove the best fianacial tips, guides to boost your networth">
 {% endblock meta_tags %}
 
 {% block title %}
@@ -18,31 +17,33 @@
 
 {% block body_block %}
 <!-- Hero Section-->
-<section style="background: url({% static 'img/hero.jpg'%}); background-size: cover; background-position: center center"
-    class="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7">
-                <h1>Investments, Insurance, Stocks Lets Learn within 5 Mins</h1><a href="#featured"
-                    class="hero-link">Discover
-                    More</a>
-            </div>
-        </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
-    </div>
+<section style="background: url({% static 'img/corona.jpg'%}); background-size: cover; background-position: center center" class="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7">
+        <h1>අපි එක්ව පරදමු</h1>
+        <h1>Covid-19
+        </h1>
+        <a href="#featured" class="hero-link">Discover
+          More</a>
+      </div>
+    </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
+  </div>
 </section>
+
 <!-- Intro Section-->
 <section class="intro">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
 
-                <h2 class="h3 mb-2">Do You Agree?</h2>
-                <p class="text-big">Financial knowledge is more important than Common sense? We prove the guide lines
-                    everything you need to know about</p>
+        <h2 class="h3 mb-2">Do You Agree?</h2>
+        <p class="text-big">Financial knowledge is more important than Common sense? We prove the guide lines
+          everything you need to know about</p>
 
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 
@@ -50,152 +51,145 @@
 
 
 <section class="featured-posts no-padding-top" id="featured">
-    <div class="container">
-        <!-- Post-->
+  <div class="container">
+    <!-- Post-->
 
-        {% for post in post_list %}
-        <div class="row d-flex align-items-stretch">
+    {% for post in post_list %}
+    <div class="row d-flex align-items-stretch">
 
-            {% if forloop.counter|divisibleby:2 %}
-            <div class="image col-lg-5">
+      {% if forloop.counter|divisibleby:2 %}
+      <div class="image col-lg-5">
 
-                <img src="{{post.news_pic.url}}" alt="{{ post.main_title }}">
+        <img src="{{post.news_pic.url}}" alt="{{ post.main_title }}">
 
-            </div>
-            {% endif %}
+      </div>
+      {% endif %}
 
-            <div class="text col-lg-7">
-                <div class="text-inner d-flex align-items-center">
-                    <div class="content">
-                        <header class="post-header">
-                            <div class="category">
+      <div class="text col-lg-7">
+        <div class="text-inner d-flex align-items-center">
+          <div class="content">
+            <header class="post-header">
+              <div class="category">
 
-                                <a href="{{post.get_category_list_url}}">{{post.category.title}} /</a>
-                                <a href="{{post.get_sub_category_list_url}}">{{post.sub_category.sub_title}}</a>
+                <a href="{{post.get_category_list_url}}">{{post.category.title}} /</a>
+                <a href="{{post.get_sub_category_list_url}}">{{post.sub_category.sub_title}}</a>
 
-                            </div>
+              </div>
 
-                            <a href=" {{post.get_absolute_url}}">
-                                <h2 class="h4">{{ post.main_title }}</h2>
-                            </a>
-                        </header>
-                        <p> {{post.short_description|truncatechars:200}} </p>
-                        <footer class="post-footer d-flex align-items-center"><a href="#"
-                                class="author d-flex align-items-center flex-wrap">
-                                <div class="">
-                                    <a href="{{post.get_user_post}}">
-                                        <img src="{{post.author.profile.image.url}}" alt="{{post.author.username}}"
-                                            class="article-img rounded-circle">
-                                    </a>
-                                </div>
-                                <div class="title"><span>{{post.author.username}}</span></div>
-                            </a>
-                            <div class="date"><i class="icon-clock"></i> {{post.published_date|timesince}} ago </div>
-                            <div class="comments"><i class="icon-comment"></i>{{post.comment_count}}</div>
-                        </footer>
-                    </div>
+              <a href=" {{post.get_absolute_url}}">
+                <h2 class="h4">{{ post.main_title }}</h2>
+              </a>
+            </header>
+            <p> {{post.short_description|truncatechars:200}} </p>
+            <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                <div class="">
+                  <a href="{{post.get_user_post}}">
+                    <img src="{{post.author.profile.image.url}}" alt="{{post.author.username}}" class="article-img rounded-circle">
+                  </a>
                 </div>
-            </div>
-            {% if not forloop.counter|divisibleby:2 %}
-            <div class="image col-lg-5"><img src="{{post.news_pic.url}}" alt="{{post.main_title}}"></div>
-            {% endif %}
+                <div class="title"><span>{{post.author.username}}</span></div>
+              </a>
+              <div class="date"><i class="icon-clock"></i> {{post.published_date|timesince}} ago </div>
+              <div class="comments"><i class="icon-comment"></i>{{post.comment_count}}</div>
+            </footer>
+          </div>
         </div>
-        {% endfor %}
+      </div>
+      {% if not forloop.counter|divisibleby:2 %}
+      <div class="image col-lg-5"><img src="{{post.news_pic.url}}" alt="{{post.main_title}}"></div>
+      {% endif %}
     </div>
+    {% endfor %}
+  </div>
 </section>
 
 <!-- Divider Section-->
-<section
-    style="background: url({% static 'img/divider-bg.jpg' %}); background-size: cover; background-position: center bottom"
-    class="divider">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h2>Follow the guides from the masters, and make more money while u sleep</h2><a href="#"
-                    class="hero-link">View More</a>
-            </div>
-        </div>
+<section style="background: url({% static 'img/divider-bg.jpg' %}); background-size: cover; background-position: center bottom" class="divider">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h2>Follow the guides from the masters, and make more money while u sleep</h2><a href="#" class="hero-link">View More</a>
+      </div>
     </div>
+  </div>
 </section>
 <!-- Latest Posts -->
 <section class="latest-posts">
-    <div class="container">
-        <header>
-            <h2>Latest from the blog</h2>
-            <p class="text-big">Do you really want to read all the financial magazines to become rich? We will summarize
-                it for You.</p>
-        </header>
-        <div class="row">
+  <div class="container">
+    <header>
+      <h2>Latest from the blog</h2>
+      <p class="text-big">Do you really want to read all the financial magazines to become rich? We will summarize
+        it for You.</p>
+    </header>
+    <div class="row">
 
-            {% for post in latest %}
-            <div class="post col-md-4">
-                <div class="post-thumbnail"><a href="{{post.get_absolute_url}}"><img src="{{post.news_pic.url}}"
-                            alt="{{post.main_title}}" class="img-fluid"></a>
-                </div>
-                <div class="post-details">
-                    <div class="post-meta d-flex justify-content-between">
-                        <div class="date">{{post.published_date|timesince}} ago</div>
-                        <div class="category">
-
-                            <a href="{{post.get_category_url}}">{{post.category.title}}</a>
-
-                        </div>
-                    </div><a href="{{post.get_absolute_url}}">
-                        <h3 class="h4">{{post.main_title}}</h3>
-                    </a>
-                    <p class="text-muted">{{post.short_description|truncatechars:200}}.</p>
-                </div>
-            </div>
-            {% endfor %}
-
-
-
+      {% for post in latest %}
+      <div class="post col-md-4">
+        <div class="post-thumbnail"><a href="{{post.get_absolute_url}}"><img src="{{post.news_pic.url}}" alt="{{post.main_title}}" class="img-fluid"></a>
         </div>
+        <div class="post-details">
+          <div class="post-meta d-flex justify-content-between">
+            <div class="date">{{post.published_date|timesince}} ago</div>
+            <div class="category">
+
+              <a href="{{post.get_category_url}}">{{post.category.title}}</a>
+
+            </div>
+          </div><a href="{{post.get_absolute_url}}">
+            <h3 class="h4">{{post.main_title}}</h3>
+          </a>
+          <p class="text-muted">{{post.short_description|truncatechars:200}}.</p>
+        </div>
+      </div>
+      {% endfor %}
+
+
+
     </div>
+  </div>
 </section>
 <!-- Newsletter Section-->
 <section class="newsletter no-padding-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Subscribe to Newsletter</h2>
-                <p class="text-big">The financids contains everything you need to know to make your journeys with us
-                    even
-                    more rewarding.
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Subscribe to Newsletter</h2>
+        <p class="text-big">The financids contains everything you need to know to make your journeys with us
+          even
+          more rewarding.
 
-                    Learn about financids latest deals and special offers, exciting news on our products and
-                    services Your next big adventure is only
-                    an email away.
+          Learn about financids latest deals and special offers, exciting news on our products and
+          services Your next big adventure is only
+          an email away.
 
-                    <form action="{% url 'subscribe' %}" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            {{form}}
-                            <button type="submit" class="submit">Subscribe</button>
-                        </div>
-                    </form>
+          <form action="{% url 'subscribe' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              {{form}}
+              <button type="submit" class="submit">Subscribe</button>
             </div>
-        </div>
+          </form>
+      </div>
     </div>
-    </div>
+  </div>
+  </div>
 </section>
 <!-- Gallery Section-->
 <section class="gallery no-padding">
-    <div class="row">
+  <div class="row">
 
-        {% for pic in pics %}
-        <div class="mix col-lg-3 col-md-3 col-sm-6">
-            <div class="item"><a href="{{pic.news_pic.url}}" data-fancybox="gallery" class="image"><img
-                        src="{{pic.news_pic.url}}" alt="{{pic.main_title}}" class="img-fluid">
-                    <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i>
-                    </div>
-                </a></div>
-        </div>
-        {% endfor %}
-
-
-
+    {% for pic in pics %}
+    <div class="mix col-lg-3 col-md-3 col-sm-6">
+      <div class="item"><a href="{{pic.news_pic.url}}" data-fancybox="gallery" class="image"><img src="{{pic.news_pic.url}}" alt="{{pic.main_title}}" class="img-fluid">
+          <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i>
+          </div>
+        </a></div>
     </div>
+    {% endfor %}
+
+
+
+  </div>
 </section>
 
 {% endblock body_block %}
