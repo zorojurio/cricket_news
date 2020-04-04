@@ -2,32 +2,32 @@
 {% load static %}
 <html lang="en">
 
-    <head>
+  <head>
 
-        {% include '_header_meta.html' %}
-        {% include '_header_links.html' %}
+    {% include '_header_meta.html' %}
+    {% include '_header_links.html' %}
 
-        {% block meta_tags %}
-        {% endblock meta_tags %}
+    {% block meta_tags %}
+    {% endblock meta_tags %}
 
-        {% block style %}
-        {% endblock style %}
+    {% block style %}
+    {% endblock style %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon_anaa.ico' %}">
+    <title>
+      {% block title %}
+      {% endblock title %}
+    </title>
+  </head>
 
-        <title>
-            {% block title %}
-            {% endblock title %}
-        </title>
-    </head>
+  <body>
+    {% include 'navbar.html' %}
 
-    <body>
-        {% include 'navbar.html' %}
+    {% block body_block %}
+    {% endblock body_block %}
 
-        {% block body_block %}
-        {% endblock body_block %}
+    {% include 'footer.html' %}
+    {% include 'scripts.html' %}
 
-        {% include 'footer.html' %}
-        {% include 'scripts.html' %}
-
-    </body>
+  </body>
 
 </html>
