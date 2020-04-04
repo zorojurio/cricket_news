@@ -6,7 +6,7 @@ from category.models import Category
 
 
 class SubCategory(models.Model):
-    sub_title = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created at")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated at")
