@@ -1,8 +1,9 @@
 from django import forms
+
+from blog.models import Comment, Post
 from category.models import Category
-from subcategory.models import SubCategory
-from blog.models import Post, Comment
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from subcategory.models import SubCategory
 
 
 class PostForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class PostForm(forms.ModelForm):
             attrs={'required': False}))
 
         model = Post
-        fields = ('author', 'main_title', 'news_pic', 'video_link',
+        fields = ('author', 'main_title', 'slug', 'news_pic', 'video_link',
                   'short_description', 'long_description', 'category', 'sub_category')
 
         widgets = {

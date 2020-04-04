@@ -1,7 +1,7 @@
 from django.db import models
-from django.template.defaultfilters import slugify
-from django.shortcuts import reverse
 from django.db.models.signals import post_save
+from django.shortcuts import reverse
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -30,7 +30,7 @@ class Category(models.Model):
 
 def slug_post_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
-        slug = slugify(instance.title)
+        slug = slugify(instance.title, allow_unicode=True)
         instance.slug = slug
         instance.save()
 

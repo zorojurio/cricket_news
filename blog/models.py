@@ -1,12 +1,13 @@
-from category.models import Category
-from subcategory.models import SubCategory
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db import models
 from django.urls import reverse
-from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils import timezone
+from django.utils.text import slugify
 from PIL import Image
-from django.template.defaultfilters import slugify
+
+from category.models import Category
+from ckeditor_uploader.fields import RichTextUploadingField
+from subcategory.models import SubCategory
 
 
 class Post(models.Model):
@@ -85,7 +86,6 @@ class Post(models.Model):
         ordering = ["-published_date"]
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.main_title)
         super().save(*args, **kwargs)
 
         img = Image.open(self.news_pic.path)

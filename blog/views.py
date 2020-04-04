@@ -8,9 +8,8 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import (
-    CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView,
-    View)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView, View)
 from django.views.generic.list import MultipleObjectMixin
 
 from blog.forms import CommentForm, PostForm, SearchForm
@@ -253,6 +252,7 @@ def publish_now(request):
         # setting the published date
         post_save.publish()
         return redirect('post:detail', slug=post_save.slug)
+    return redirect("post:list")
 
 
 def load_subcategories(request):
