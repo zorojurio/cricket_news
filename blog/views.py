@@ -29,7 +29,7 @@ class HomeView(View):
         post_list = Post.objects.filter(
             featured=True, published_date__lte=timezone.now()).order_by('-published_date')[:3]
         latest = Post.objects.filter(
-            published_date__lte=timezone.now()).order_by('-published_date')[:3]
+            published_date__lte=timezone.now()).order_by('-published_date')[:6]
         pics = Post.objects.filter(
             published_date__lte=timezone.now()).order_by('-published_date')[3:7]
         form = EmailSignupForm()
