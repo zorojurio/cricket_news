@@ -1,12 +1,11 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 
 from category.models import Category
 
 
 class SubCategory(models.Model):
-    sub_title = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created at")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated at")
@@ -31,7 +30,7 @@ class SubCategory(models.Model):
 
 def slug_post_save_receiver(sender, instance, *args, **kwargs):
     if not instance.sub_slug:
-        slug = slugify(instance.sub_title)
+        slug = slugify(instance.sub_title, allow_unicode=True)
         instance.sub_slug = slug
         instance.save()
 
